@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Histoires à choix · L'Atelier de Mila et Enzo</title>
+<meta name="description" content="Des histoires gratuites à lire avec votre enfant : à chaque choix, c'est lui qui décide de la suite.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;700;800&display=swap">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📖</text></svg>">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="index.html">🧙‍♀️ L'Atelier de <span>Mila</span> et <span>Enzo</span></a>
+    <nav class="menu" aria-label="Menu">
+      <a href="histoires.html" aria-current="page">Histoires</a>
+      <a href="coloriages.html">Colorier</a>
+      <a href="a-imprimer.html">À imprimer</a>
+      <a href="index.html#boutique">Boutique</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" style="padding-top:28px">
+  <div class="kicker">Gratuit · à lire ensemble</div>
+  <h1>C'est TOI qui décides !</h1>
+  <p class="intro">Choisissez une histoire et lisez-la avec votre enfant. À chaque choix, c'est lui qui décide de la suite.</p>
+
+  <div class="picker" id="picker" role="group" aria-label="Choisir une histoire"></div>
+
+  <article class="story" aria-live="polite">
+    <h2 id="s-title"></h2>
+    <div class="page-text" id="s-text"></div>
+    <div class="choices" id="s-choices"></div>
+  </article>
+
+  <div class="band" style="margin-top:36px">
+    <h2>Vous avez aimé ?</h2>
+    <p>Il existe un livre entier comme ça : « Soirée d'Halloween – C'est TOI qui décides », en Kindle (7 €) ou en grand livre broché avec des jeux.</p>
+    <a class="btn" href="https://www.amazon.fr/s?k=Soir%C3%A9e+d%27Halloween+C%27est+TOI+qui+d%C3%A9cides" rel="noopener">Voir le livre sur Amazon</a>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div><b>L'Atelier de Mila et Enzo</b> · une création de Sandra Duchalet, <a href="https://lespetitspapiersfaciles.fr">Les Petits Papiers Faciles</a>, Hyères (Var).</div>
+    <div>Textes originaux. Reproduction réservée à un usage familial.</div>
+  </div>
+</footer>
+
+<script>
+// Chaque histoire : des pages, et des choix qui mènent à d'autres pages.
+const STORIES = {
+  grenier: {
+    emoji: "🎃", title: "Le grenier de Mila", sub: "Halloween · 3 à 9 ans",
+    pages: {
+      start: {
+        text: ["Ce soir, c'est Halloween. Mila, la petite sorcière, prépare sa toute première potion.",
+               "Elle verse une goutte de lune, trois pépins de citrouille… et BLOUP ! Une fumée verte envahit toute la cuisine.",
+               "Quand la fumée s'en va, Léon le chien grogne tout doucement. Il fixe la porte du grenier. Là-haut, quelque chose gratte… gratte… gratte…"],
+        choices: [["Mila prend sa lanterne et monte au grenier sur la pointe des pieds.", "a"],
+                  ["Mila lance un sort pour que Léon puisse parler… et tout lui raconter.", "b"]]
+      },
+      a: { text: ["Mila monte, lanterne à la main. Dans un coin, deux petits yeux brillent…",
+                  "C'est une chauve-souris toute perdue ! Le bruit de la potion l'a réveillée.",
+                  "Mila lui ouvre la lucarne : « Bonne nuit, petite voisine ! »"], end: true },
+      b: { text: ["« Abracadachien ! » Léon ouvre la bouche et dit :",
+                  "« Mila… ton chat a caché mes biscuits au grenier ! »",
+                  "Mila éclate de rire. Ce soir, la potion attendra : on va chercher les biscuits !"], end: true }
+    }
+  },
+  feuilles: {
+    emoji: "🍂", title: "Léon et le trésor des feuilles", sub: "Automne · 3 à 7 ans",
+    pages: {
+      start: {
+        text: ["Au jardin, le vent a fait tomber toutes les feuilles. Léon le chien adore sauter dedans !",
+               "Mais après le dixième saut… catastrophe : son jouet hérisson a disparu sous la montagne de feuilles."],
+        choices: [["Léon fouille avec son nez, feuille par feuille.", "a"],
+                  ["Léon va chercher Mila et son balai magique.", "b"]]
+      },
+      a: { text: ["Léon renifle… renifle… ATCHOUM !",
+                  "Les feuilles s'envolent partout, et au milieu, le jouet hérisson apparaît.",
+                  "Léon le rapporte fièrement : c'était le meilleur éternuement de sa vie !"], end: true },
+      b: { text: ["Mila fait tourner son balai : « Tourbillon de feuilles ! »",
+                  "Toutes les feuilles dansent dans le ciel… et le hérisson retombe pile dans la gueule de Léon.",
+                  "Et les feuilles ? Elles forment un joli tas pour sauter encore !"], end: true }
+    }
+  },
+  etoile: {
+    emoji: "⭐", title: "Enzo et l'étoile du sapin", sub: "Noël · 3 à 9 ans",
+    pages: {
+      start: {
+        text: ["C'est bientôt Noël. Enzo et Mila décorent le grand sapin de la place du village.",
+               "Il ne manque plus que l'étoile, tout en haut… mais elle a disparu !",
+               "Sur la neige, Enzo remarque de toutes petites traces qui partent vers la forêt."],
+        choices: [["Enzo suit les petites traces dans la forêt.", "a"],
+                  ["Mila fabrique une nouvelle étoile avec une potion.", "b"]]
+      },
+      a: { text: ["Les traces mènent à un petit écureuil. L'étoile brille dans son nid : il la trouvait si jolie !",
+                  "Enzo lui promet de lui fabriquer une étoile rien qu'à lui.",
+                  "L'écureuil rend l'étoile, et ce soir-là, le sapin brille comme jamais."], end: true },
+      b: { text: ["Mila mélange de la neige, un rayon de lune et une pincée de paillettes… POUF !",
+                  "Une étoile apparaît… mais elle chante : « Vive le vent, vive le vent ! »",
+                  "Enzo rit tellement qu'il tombe dans la neige. Le sapin a maintenant l'étoile la plus joyeuse du monde !"], end: true }
+    }
+  }
+};
+
+const picker = document.getElementById("picker");
+const titleEl = document.getElementById("s-title");
+const textEl = document.getElementById("s-text");
+const choicesEl = document.getElementById("s-choices");
+let storyId = "grenier";
+
+function el(tag, cls, txt) { const e = document.createElement(tag); if (cls) e.className = cls; if (txt) e.textContent = txt; return e; }
+
+function show(pageId) {
+  const s = STORIES[storyId], page = s.pages[pageId];
+  titleEl.textContent = s.emoji + " " + s.title;
+  textEl.replaceChildren(...page.text.map(t => el("p", "", t)));
+  choicesEl.replaceChildren();
+  if (page.choices) {
+    choicesEl.appendChild(el("h3", "", "À toi de choisir !"));
+    page.choices.forEach(([label, next], i) => {
+      const b = el("button", "choice" + (i ? " b" : ""));
+      b.type = "button";
+      b.append(el("span", "l", i ? "B" : "A"), el("span", "", label));
+      b.addEventListener("click", () => show(next));
+      choicesEl.appendChild(b);
+    });
+  } else {
+    textEl.appendChild(el("p", "fin", "FIN ✨"));
+    const again = el("button", "btn", "↺ Choisir l'autre chemin");
+    again.type = "button";
+    again.addEventListener("click", () => show("start"));
+    choicesEl.appendChild(again);
+  }
+}
+
+Object.entries(STORIES).forEach(([id, s]) => {
+  const b = el("button");
+  b.type = "button";
+  b.setAttribute("aria-pressed", id === storyId);
+  b.append(el("b", "", s.emoji + " " + s.title), el("span", "", s.sub));
+  b.addEventListener("click", () => {
+    storyId = id;
+    picker.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b));
+    show("start");
+  });
+  picker.appendChild(b);
+});
+show("start");
+</script>
+</body>
+</html>
